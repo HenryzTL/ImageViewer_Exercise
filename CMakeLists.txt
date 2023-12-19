@@ -18,6 +18,8 @@ qt_add_qml_module(appImageViewer_Exercise
     QML_FILES ImageViewer.qml
     SOURCES
     QML_FILES content/TopBar.qml
+    QML_FILES content/MainView.qml
+    QML_FILES content/FileDialogHandler.qml
 )
 
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.
