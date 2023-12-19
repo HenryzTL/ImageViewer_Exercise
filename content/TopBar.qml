@@ -125,10 +125,9 @@ Rectangle {
                 Slider {
                     id: ratioBar
                     width: parent.width * 0.5
-                    from: 1
+                    from: 0.5
                     to: 200
-                    stepSize: 1
-                    value: 50
+                    stepSize: 0.5
 
                     onMoved: {
                         // sliderText.text = value.toFixed(0)+"%"

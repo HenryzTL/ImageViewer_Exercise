@@ -4,8 +4,8 @@ import "./content"
 
 Rectangle {
     id: mainRect
-    width: 640
-    height: 480
+    width: 1280
+    height: 960
     visible: true
     color: "#999999"
 
@@ -22,6 +22,7 @@ Rectangle {
             }
 
             onFileSelected: function(fileUrl) {
+                mainView.images.model.clear()
                 mainView.image.source = fileUrl
             }
 
@@ -37,12 +38,12 @@ Rectangle {
 
                 mainView.image.scale = targetScale
 
-                console.log("Original Width:", mainView.image.width);
-                console.log("Original Height:", mainView.image.height);
+                // console.log("Original Width:", mainView.image.width);
+                // console.log("Original Height:", mainView.image.height);
 
-                // Access the displayed size
-                console.log("Displayed Width:", mainView.image.paintedWidth);
-                console.log("Displayed Height:", mainView.image.paintedHeight);
+                // // Access the displayed size
+                // console.log("Displayed Width:", mainView.image.paintedWidth);
+                // console.log("Displayed Height:", mainView.image.paintedHeight);
             }
 
             onFitButtonOn: {
