@@ -16,6 +16,7 @@ Rectangle {
             id: topbar
 
             onFilesSelected: function(fileUrlsStr, fileUrls) {
+                mainView.images.model.clear()
                 for(var url in fileUrls)
                     mainView.images.model.append({"path": fileUrls[url], "string" : fileUrlsStr[url]})
             }
@@ -50,10 +51,10 @@ Rectangle {
                 var ratio = mainView.image.paintedWidth / mainView.image.sourceSize.width
                 mainView.imageRatioChanged(ratio)
 
-                if(mainView.image.width == mainView.image.paintedWidth){
-                    mainView.scaleReference = 0}
-                if(mainView.image.height == mainView.image.paintedHeight){
-                    mainView.scaleReference = 1}
+                if(mainView.image.width == mainView.image.paintedWidth)
+                    mainView.scaleReference = 0
+                if(mainView.image.height == mainView.image.paintedHeight)
+                    mainView.scaleReference = 1
 
             }
 
@@ -72,6 +73,8 @@ Rectangle {
 
             onImageRatioChanged: function(ratio) {
                 topbar.ratioBar.value = 100 * ratio
+                mainView.image.scale = 1
+                topbar.fitbutton.color = "#949494"
             }
         }
     }
