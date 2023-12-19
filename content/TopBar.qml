@@ -3,12 +3,12 @@ import QtQuick.Layouts
 import QtQuick.Controls
 import QtQuick.Dialogs
 
-
 Rectangle {
     Layout.preferredHeight: 50
     Layout.fillWidth: true
     color: "#ffffff"
-    property url documentsFolder: StandardPaths.writableLocation(StandardPaths.DocumentsLocation)
+    property url documentsFolder: StandardPaths.writableLocation(
+                                      StandardPaths.DocumentsLocation)
 
     RowLayout {
         // anchors.centerIn: parent
@@ -19,13 +19,13 @@ Rectangle {
                 text: "Open..."
                 anchors.verticalCenter: parent.verticalCenter
                 onClicked: {
-                    fileDialogHandler.open()
+                    fileDialogHandler.fileDialog.open()
                 }
             }
 
             FileDialogHandler {
-                    id: fileDialogHandler
-                }
+                id: fileDialogHandler
+            }
         }
 
         Rectangle {
@@ -39,7 +39,6 @@ Rectangle {
                 Item {
                     Layout.preferredWidth: parent.width * 0.2
                     Layout.fillHeight: true
-
                 }
 
                 // Buttons
@@ -56,7 +55,6 @@ Rectangle {
                         console.log("Button 2 clicked")
                     }
                 }
-
 
                 Slider {
                     width: parent.width * 0.5
@@ -81,14 +79,8 @@ Rectangle {
                 Item {
                     Layout.preferredWidth: parent.width * 0.2
                     Layout.fillHeight: true
-
                 }
             }
         }
-
     }
-
-
-
 }
-

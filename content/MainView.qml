@@ -19,13 +19,11 @@ Rectangle {
             border.width: 1
 
             ListView {
-                id:listView
+                id: listView
                 anchors.fill: parent
                 anchors.top: parent.top
                 anchors.left: parent.left
-                model: ListModel {
-
-                    // Add more items as needed
+                model: ListModel {// Add more items as needed
                 }
 
                 delegate: Item {
@@ -43,14 +41,13 @@ Rectangle {
                         }
                     }
                 }
-
-                onSelectedPathChanged: {
-                    folderListView.model.append({ path: fileDialogHandler.selectedPath });
-                }
             }
 
             FileDialogHandler {
                 id: fileDialogHandler
+                onFileSelected: filePath => listView.model.append({
+                                                                      "path": filePath
+                                                                  })
             }
         }
 
@@ -61,8 +58,6 @@ Rectangle {
             Layout.margins: 5
             border.color: "black"
             border.width: 1
-
-
         }
     }
 }
