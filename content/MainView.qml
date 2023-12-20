@@ -2,34 +2,36 @@ import QtQuick 2.15
 import QtQuick.Layouts
 import QtQuick.Controls
 
-Rectangle {
-    Layout.fillHeight: true
-    Layout.fillWidth: true
-    Layout.margins: 0.5
-    color: "transparent"
+Item {
+    id: _top
 
-    property int scaleReference // 1 Height or 0 Width
-    property alias images : listView
-    property alias image: image
+    property real imageScale: 1
+
+    readonly property alias images: listView
+    readonly property alias image: image
+
+    // readonly property alias imageSourceSize: image.sourceSize
+    // readonly property alias imagePaintedSize: Qt.size(image.paintedWidth, image.paintedHeight)
+
     signal imageLoaded(var ratio)
-    signal imageRatioChanged(var ratio)
+    signal imageSizeChanged(var ratio)
 
     RowLayout {
         anchors.fill: parent
+        anchors.margins: 5
+        spacing: 0
 
         // Left Section (ListView)
         Rectangle {
-            Layout.alignment: Qt.AlignCenter
             Layout.preferredWidth: parent.width * 0.2
             Layout.fillHeight: true
-            Layout.margins: 0.5
+            color: "#ffffff"
+
             ListView {
                 id: listView
                 anchors.fill: parent
-                anchors.top: parent.top
-                anchors.left: parent.left
-                model: ListModel {
-                }
+
+                model: ListModel {}
 
                 delegate: MouseArea {
                     width: listView.width
@@ -42,75 +44,58 @@ Rectangle {
                         Text {
                             anchors.fill: parent
                             anchors.centerIn: parent
-                            text: model.string
+                            text: model.path
                             elide: Text.ElideLeft
                         }
                     }
 
                     onClicked: {
-                        //image.source = model.path
                         listView.currentIndex = index
                     }
                 }
 
                 onCurrentIndexChanged: {
-                    image.source = model.get(currentIndex).path
+                    image.source = "file:///" + model.get(currentIndex).path
                 }
             }
-
         }
 
         // Right Section (ImageViewer)
         Rectangle {
-            Layout.alignment: Qt.AlignCenter
-            Layout.preferredWidth: parent.width * 0.75
+            Layout.fillWidth: true
             Layout.fillHeight: true
-            Layout.margins: 0.5
+            Layout.leftMargin: 5
+
+            color: "white"
             clip: true
 
-            RowLayout {
-                anchors.fill: parent
+            Image {
+                id: image
+
+                width: parent.width
+                height: parent.height
                 anchors.centerIn: parent
-                Image {
-                    id: image
 
-                    Layout.alignment: Qt.AlignCenter
-                    Layout.preferredWidth: parent.width
-                    Layout.preferredHeight: parent.height
-                    fillMode: Image.PreserveAspectFit
+                fillMode: Image.PreserveAspectFit
+                scale: _top.imageScale
 
-                    onStatusChanged: {
-                        if (image.status === Image.Ready) {
-                            var ratio = image.paintedWidth / image.sourceSize.width
-                            imageLoaded(ratio)
-
-                            console.log("Original Width:", image.sourceSize.width);
-                            console.log("Original Height:", image.sourceSize.height);
-
-                            // // Access the displayed size
-                            // console.log("Displayed Width:", image.paintedWidth);
-                            // console.log("Displayed Height:", image.paintedHeight);
-
-                            // // Access the displayed size
-                            // console.log("frame Width:", parent.width);
-                            // console.log("frame Height:", parent.height);
-
-                            // var marginX = parent.x - image.contentX;
-                            // var marginY = parent.y - image.contentY;
-
-                            // console.log("MarginX:", marginX);
-                            // console.log("MarginY:", marginY);
-                        }
+                onStatusChanged: {
+                    if (image.status === Image.Ready) {
+                        const ratio = image.paintedWidth / image.sourceSize.width
+                        imageLoaded(ratio)
                     }
                 }
             }
 
             onWidthChanged: {
-                var ratio = image.paintedWidth / image.sourceSize.width
-                imageRatioChanged(ratio)
+                const ratio = image.paintedWidth / image.sourceSize.width
+                imageSizeChanged(ratio)
+            }
+
+            onHeightChanged: {
+                const ratio = image.paintedWidth / image.sourceSize.width
+                imageSizeChanged(ratio)
             }
         }
-
-
     }
 }
